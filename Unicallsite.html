@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UNICALL – Planet Phone 1</title>
+  <style>
+    /* Сброс стилей */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #111;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+    }
+
+    /* Шапка */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header img {
+      width: 200px;
+      margin-top: 20px;
+      transition: transform 0.4s ease;
+    }
+
+    .header img:hover {
+      transform: scale(1.05);
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+      padding: 10px 20px;
+      margin-top: 15px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #fff;
+      color: #000;
+      transform: scale(1.05);
+    }
+
+    .models {
+      display: flex;
+      justify-content: space-between;
+      margin: 40px 0;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .model {
+      flex: 1;
+      text-align: center;
+      border-top: 1px solid #444;
+      padding-top: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .model img {
+      max-width: 160px;
+      transition: transform 0.4s ease;
+    }
+
+    .model:hover {
+      transform: translateY(-5px);
+    }
+
+    .model img:hover {
+      transform: scale(1.05);
+    }
+
+    .features {
+      background: #1a1a1a;
+      padding: 30px;
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .features ul {
+      list-style: none;
+      flex: 1;
+      padding: 10px;
+    }
+
+    .features ul li {
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .features ul li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: #0f0;
+    }
+
+    .media {
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    .media img {
+      width: 200px;
+      margin-bottom: 20px;
+      transition: transform 0.4s ease;
+    }
+
+    .media img:hover {
+      transform: scale(1.05);
+    }
+
+    .email-box {
+      margin: 20px 0;
+    }
+
+    .email-box input {
+      padding: 10px;
+      width: 250px;
+      max-width: 80%;
+      border: none;
+      border-radius: 5px;
+      margin-right: 10px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .email-box input:focus {
+      outline: none;
+      box-shadow: 0 0 5px #fff;
+    }
+
+    .email-box button {
+      padding: 10px 20px;
+      border: none;
+      background: #fff;
+      color: #000;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .email-box button:hover {
+      background: #ddd;
+    }
+
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* === РОБОТ === */
+    .robot {
+      position: relative;
+      width: 60px;
+      height: 100px;
+      display: inline-block;
+      margin-left: 10px;
+      transform: translateY(30px);
+      animation: fade-in-up 1.2s ease forwards, float 3s ease-in-out infinite;
+      animation-delay: 0.4s;
+      opacity: 0;
+      vertical-align: middle;
+      transition: transform 0.4s ease, filter 0.4s ease;
+      cursor: pointer;
+    }
+
+    .robot:hover {
+      transform: scale(1.1) rotate(3deg);
+      filter: brightness(1.2);
+    }
+
+    .robot .head {
+      width: 40px;
+      height: 40px;
+      background: #1aff1a;
+      border-radius: 8px;
+      margin: 0 auto;
+      position: relative;
+      transition: background 0.3s ease;
+    }
+
+    .robot:hover .head {
+      background: #00ffcc;
+    }
+
+    .eye {
+      width: 6px;
+      height: 6px;
+      background: #000;
+      border-radius: 50%;
+      position: absolute;
+      top: 12px;
+      animation: blink 4s infinite;
+    }
+
+    .eye.left  { left: 8px; }
+    .eye.right { right: 8px; }
+
+    .body {
+      width: 30px;
+      height: 40px;
+      background: #0f0;
+      margin: 5px auto 0;
+      border-radius: 5px;
+    }
+
+    .arm {
+      width: 8px;
+      height: 30px;
+      background: #1aff1a;
+      position: absolute;
+      top: 45px;
+      animation: wave 3s infinite ease-in-out;
+    }
+
+    .arm.left {
+      left: -10px;
+      transform-origin: top right;
+    }
+
+    .arm.right {
+      right: -10px;
+      transform-origin: top left;
+      animation-delay: 1.5s;
+    }
+
+    /* Анимации */
+    @keyframes blink {
+      0%, 90%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.1); }
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(20deg); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @keyframes fade-in-up {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Шапка -->
+    <div class="header">
+      <h2>UNICALL</h2>
+      <h1>PLANET PHONE 1</h1>
+      <p>Новый взгляд на смартфоны</p>
+      <a href="#models" class="btn">СМОТРЕТЬ МОДЕЛИ</a>
+      <img src="https://via.placeholder.com/200x300?text=Phone" alt="Phone" />
+    </div>
+
+    <!-- Модели -->
+    <h2 id="models">МОДЕЛИ</h2>
+    <div class="models">
+      <div class="model">
+        <img src="/run/media/antonk/1A19-3C43/unicallsiter/img/file_000000009fbc61f4aa93df76f3b009a0-removebg-preview.png" alt="Planet Phone 1" />
+        <h3>PLANET PHONE 1</h3>
+        <p>от $699</p>
+      </div>
+      <div class="model">
+        <img src="/run/media/antonk/1A19-3C43/unicallsiter/img/file_000000009fbc61f4aa93df76f3b009a0-removebg-preview.png" alt="Planet Phone 1 LTE" />
+        <h3>PLANET PHONE 1 LTE</h3>
+        <p>от $449</p>
+      </div>
+    </div>
+
+    <!-- Преимущества -->
+    <div class="features">
+      <ul>
+        <li>Безрамочный экран</li>
+        <li>Доступные цены</li>
+      </ul>
+      <ul>
+        <li>
+          UNIOS + Android 17
+          <!-- Робот Android -->
+          <div class="robot">
+            <div class="head">
+              <div class="eye left"></div>
+              <div class="eye right"></div>
+            </div>
+            <div class="body"></div>
+            <div class="arm left"></div>
+            <div class="arm right"></div>
+          </div>
+        </li>
+        <li>Инновации для молодёжи</li>
+      </ul>
+    </div>
+
+    <!-- Подписка -->
+    <div class="media">
+      <h2>МЕДИА</h2>
+      <img src="https://via.placeholder.com/200x300?text=Media+Phone" alt="Media Phone" />
+      <p>Будь первым, кто узнает о запуске</p>
+
+      <!-- Подписка через email -->
+      <form class="email-box" action="https://formspree.io/f/manjzdzq" method="POST">
+        <input type="email" name="email" placeholder="Email адрес" required />
+        <button type="submit">ОТПРАВИТЬ</button>
+      </form>
+
+      <p>О СОЗДАТЕЛЕ</p>
+      <h3>MY BAD</h3>
+    </div>
+
+    <!-- Подвал -->
+    <div class="footer">
+      <p>© 2025 UNICALL. Все права защищены.</p>
+    </div>
+
+  </div>
+
+</body>
+</html>
+
